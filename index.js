@@ -1,8 +1,23 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
+const mongoose = require('mongoose')
 const http = require('http')
 const { Server } = require('socket.io')
 const cors = require('cors')
+
+const dbPassword = process.env.DB_PASSWORD
+
+const mongoUrl = `mongodb+srv://guilherme:${dbPassword}@cluster0.jiz8pb1.mongodb.net/nodeJourney?retryWrites=true&w=majority`
+
+app.use(
+    express.urlencoded({
+        extended: true
+    })
+)
+
+app.use(express.json())
+
 
 app.use(cors())
 
@@ -27,4 +42,8 @@ io.on('connection', (socket) => {
     })
 })
 
-server.listen(port, () => console.log("Server has been started"))
+mongoose.connect(mongoUrl).then(() => {
+    server.listen(port, () => console.log("Server has been started"))
+}).catch((err) => {
+    console.log("Um erro aconteceu: " + err)
+})
