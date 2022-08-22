@@ -8,7 +8,7 @@ const cors = require('cors')
 
 const dbPassword = process.env.DB_PASSWORD
 
-const mongoUrl = `mongodb+srv://guilherme:xJ8ansyXDo3PzTFO@cluster0.jiz8pb1.mongodb.net/nodeJourney?retryWrites=true&w=majority`
+const mongoUrl = `mongodb+srv://guilherme:${dbPassword}@cluster0.jiz8pb1.mongodb.net/nodeJourney?retryWrites=true&w=majority`
 
 app.use(
     express.urlencoded({
