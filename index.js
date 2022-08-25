@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const http = require('http')
 const { Server } = require('socket.io')
 const cors = require('cors')
+const CadastroRotas = require("./routes")
 
 const dbPassword = process.env.DB_PASSWORD
 
@@ -18,8 +19,14 @@ app.use(
 
 app.use(express.json())
 
-
 app.use(cors())
+
+app.use('/cadastro', CadastroRotas)
+app.use('/cadastros', CadastroRotas)
+
+app.use('/', (req, res) => {
+    res.send('home')
+})
 
 const port = process.env.PORT || 3001
 
@@ -44,6 +51,8 @@ io.on('connection', (socket) => {
 
 mongoose.connect(mongoUrl).then(() => {
     server.listen(port, () => console.log("Server has been started"))
+    
+    app.listen(3002, () => console.log("Deu certo também"))
 }).catch((err) => {
     console.log("Um erro aconteceu: " + err)
 })
